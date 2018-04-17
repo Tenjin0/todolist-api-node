@@ -1,25 +1,21 @@
 {
-  "name": "todolist-api-node",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "cookie-parser": "~1.4.3",
-    "cors": "^2.8.4",
-    "debug": "~2.6.9",
-    "fastify": "^1.2.1",
-    "fastify-blipp": "^1.1.0",
-    "fastify-boom": "^0.1.0",
-    "fastify-compress": "^0.5.1",
-    "fastify-compression": "^0.4.2",
-    "fastify-helmet": "^1.0.3",
-    "http-errors": "~1.6.2",
-    "iltorb": "^2.3.0",
-    "morgan": "~1.9.0"
-  },
-  "devDependencies": {
-    "bluebird": "^3.5.1"
-  }
+    "name": "todolist-api-node",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./bin/www"
+    },
+    "dependencies": {
+        "cors": "^2.8.4",
+        "fastify": "^1.2.1",
+        "fastify-blipp": "^1.1.0",
+        "fastify-boom": "^0.1.0",
+        "fastify-compress": "^0.5.1",
+        "fastify-compression": "^0.4.2",
+        "fastify-helmet": "^1.0.3",
+        "iltorb": "^2.3.0"
+    },
+    "devDependencies": {
+        "bluebird": "^3.5.1"
+    }
 }
