@@ -12,8 +12,8 @@ module.exports = async function(fastify, options, next) {
                 title: "todo2",
                 completed: false
             }, {
-                id: 2,
-                title: "todo2",
+                id: 3,
+                title: "todo3",
                 completed: false
             }]
         })
