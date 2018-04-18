@@ -1,4 +1,4 @@
-module.exports = async function(fastify, options, next) {
+export default async function(fastify, options, next) {
     fastify.get('/', async function(req, res) {
         res.send({
             status: "ok",

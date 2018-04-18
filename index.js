@@ -1,6 +1,8 @@
-global.Promise = require('bluebird') // eslint-disable-line no-global-assign
+import bluebird from 'bluebird'
 
-const app = require('./server/middleware')
+global.Promise = bluebird // eslint-disable-line no-global-assign
+
+import app from './server/middleware'
 
 if (!module.parent) {
     app.listen(3000, (err) => {
