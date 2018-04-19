@@ -8,13 +8,17 @@
     "dependencies": {
         "cors": "^2.8.4",
         "fastify": "^1.2.1",
+        "fastify-auth": "^0.2.0",
         "fastify-blipp": "^1.1.0",
         "fastify-boom": "^0.1.0",
         "fastify-compress": "^0.5.1",
         "fastify-compression": "^0.4.2",
         "fastify-helmet": "^1.0.3",
+        "fastify-jwt": "^0.2.1",
+        "fastify-leveldb": "^0.3.0",
         "iltorb": "^2.3.0",
         "jsonwebtoken": "^8.2.1",
+        "nodemon": "^1.17.3",
         "passport": "^0.4.0",
         "passport-jwt": "^4.0.0",
         "passport-local": "^1.0.0"

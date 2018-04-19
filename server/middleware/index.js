@@ -1,3 +1,5 @@
+const decorateAuth = require('../services/auth')
+
 const fastify = require('fastify')
 
 const app = fastify({
@@ -13,7 +15,24 @@ app.register(
         brotli: require('iltorb')
     }
 )
+decorateAuth(app)
 
-app.register(require('../routes/index'))
+app
+    .register(require('fastify-jwt'), {
+        secret: 'supersecret'
+    })
+    .register(require('fastify-leveldb'), {
+        name: 'authdb'
+    })
+    .register(require('fastify-auth'))
+    .after(() => {
+        app.register(require('../routes'))
+    })
 
-export default app;
+app.setErrorHandler((error, reply) => {
+    console.log('error', error)
+    error.message = JSON.parse(error.message);
+    reply.send(error);
+});
+
+module.exports = app;
