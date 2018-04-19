@@ -21,9 +21,9 @@ app
     .register(require('fastify-jwt'), {
         secret: 'supersecret'
     })
-    .register(require('fastify-leveldb'), {
-        name: 'authdb'
-    })
+    // .register(require('fastify-leveldb'), {
+    //     name: 'authdb'
+    // })
     .register(require('fastify-auth'))
     .after(() => {
         app.register(require('../routes'))
