@@ -28,7 +28,11 @@ app
     .after(() => {
         app.register(require('../routes'))
     })
-
+// No more supported
+// app.extendServerError((err) => {
+//     // the `err` should be the original error instance
+//     console.log('err', err)
+// })
 app.setErrorHandler((error, reply) => {
     console.log('error', error)
     error.message = JSON.parse(error.message);
