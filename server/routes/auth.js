@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-module.exports = async function(fastify, options, next) {
-    fastify.post("/signup", async (req, res, next) => {
-        res.send("ok");
-    });
-    fastify.post("login", async (req, res, next) => {
-        res.send("ok login");
-    });
-};
-=======
 module.exports = async function(fastify, options) {
 
     fastify.post('/signup', async function(req, res, next) {
@@ -22,4 +12,3 @@ module.exports = async function(fastify, options) {
         }
     })
 }
->>>>>>> 5632dd3a896d33e565cfaac72fa6e09cc1a31eb9
