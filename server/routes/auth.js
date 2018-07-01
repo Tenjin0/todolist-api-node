@@ -1,6 +1,8 @@
-fastify.post('/signup', async (req, res, next) => {
-    res.send('ok')
-})
-fastify.post('login', async (req, res, next) => {
-    res.send('ok login')
-})
+module.exports = async function(fastify, options, next) {
+    fastify.post("/signup", async (req, res, next) => {
+        res.send("ok");
+    });
+    fastify.post("login", async (req, res, next) => {
+        res.send("ok login");
+    });
+};

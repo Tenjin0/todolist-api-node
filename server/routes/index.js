@@ -1,4 +1,4 @@
-export default async function configureRoutes(fastify, options, next) {
+module.exports = async function configureRoutes(fastify, options, next) {
     fastify.register(require('./api'), {
         prefix: "/api/v1"
     })

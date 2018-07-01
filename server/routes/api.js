@@ -1,4 +1,4 @@
-export default async function (fastify, options, next) {
+module.exports = async function (fastify, options, next) {
     fastify.register(require('./todos'), { prefix: 'todos' });
     fastify.use(async function (req, res, nextInstance) {
         console.log("you'll need to auth");

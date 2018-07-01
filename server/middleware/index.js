@@ -16,4 +16,4 @@ app.register(
 
 app.register(require('../routes/index'))
 
-export default app;
+module.exports =  app;
