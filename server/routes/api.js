@@ -1,6 +1,6 @@
 module.exports = async function(fastify, options, next) {
 
-    fastify.addHook('preHandler', fastify.auth([fastify.verifyJwtAndLevel]))
+    // fastify.addHook('preHandler', fastify.auth([fastify.verifyJwtAndLevel]))
     fastify.use(async function(req, res, nextInstance) {
         console.log("you'll need to auth");
         nextInstance();

@@ -6,11 +6,11 @@ module.exports = async function configureRoutes(fastify, options, next) {
         next(null, JSON.stringify(newPayload))
     })
 
-    fastify.register(require('./api'), {
-        prefix: "/api/v1"
-    })
     fastify.register(require('./auth'), {
         prefix: "/auth"
+    })
+    fastify.register(require('./api'), {
+        prefix: "/api/v1"
     })
     next()
 }
