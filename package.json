@@ -6,6 +6,7 @@
         "start": "node index.js"
     },
     "dependencies": {
+        "bcrypt": "^2.0.1",
         "cors": "^2.8.4",
         "dotenv": "^6.0.0",
         "fastify": "^1.7.0",

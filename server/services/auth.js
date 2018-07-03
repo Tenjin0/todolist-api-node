@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 function verifyJWT(request, reply, done) {
     const jwt = this.jwt
     const knex = this.knex
@@ -24,7 +26,13 @@ function verifyUserAndPassword(request, reply, done) {
     done()
 }
 
+async function hashPassword(password) {
+    return bcrypt.hash(password, 10)
+    
+}
+
 module.exports = {
     verifyJWT,
-    verifyUserAndPassword
+    verifyUserAndPassword,
+    hashPassword
 }

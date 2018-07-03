@@ -24,8 +24,10 @@ module.exports = async function(fastify, options) {
         url: '/signup',
         schema: userSchemaSignUp,
         handler: (req, res) => {
-            res.send({
-                token: "azedfsfd"
+            console.log(fastify.knex)
+            this.knex("users").insert({
+                email: req.body.email,
+                password: this.hashPassword(req.body.password)
             })
         }
     }, {
@@ -33,9 +35,12 @@ module.exports = async function(fastify, options) {
         url: '/signin',
         beforeHandler: fastify.auth([fastify.verifyUserAndPassword]),
         handler: (req, res) => {
-            res.send({
-                token: "azedfsfd"
-            })
+            payload = {
+                id : 1
+            }
+            const token = fastify.jwt.sign({ payload })
+            reply.send({ token })
+          
         }
     })
 }

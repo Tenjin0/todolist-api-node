@@ -19,6 +19,7 @@ function build (opts) {
 
     app.decorate('verifyJWT', decorateAuth.verifyJWT)
     .decorate('verifyUserAndPassword', decorateAuth.verifyUserAndPassword)
+    .decorate('hashPassword', decorateAuth.hashPassword)
     .register(require('fastify-auth'))
     // .register(require('../services/auth'))
     .after(() => {
