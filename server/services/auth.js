@@ -1,3 +1,18 @@
+const bcrypt = require('bcrypt');
+
+async function hashPassword(password) {
+
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, (err, encrypted) => {
+            if (err) {
+                return reject(err)
+            }
+            resolve(encrypted)
+        })
+    })
+  
+}
+
 function verifyJWT(request, reply, done) {
     const jwt = this.jwt
     const knex = this.knex
@@ -25,6 +40,7 @@ function verifyUserAndPassword(request, reply, done) {
 }
 
 module.exports = {
+    hashPassword,
     verifyJWT,
     verifyUserAndPassword
 }
