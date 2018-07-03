@@ -1,6 +1,6 @@
 const Fastify = require('fastify')
 const decorateAuth = require('../services/auth')
-
+const config = require("../../config")
 function build (opts) {
     const app = Fastify(opts)
 
@@ -14,25 +14,14 @@ function build (opts) {
             brotli: require('iltorb')
         }
     )
-    
+    app.register(require('fastify-knexjs'), config.db, err => console.error(err))
 
     app.decorate('verifyJWTandLevel', decorateAuth.verifyJWTandLevel)
     .decorate('verifyUserAndPassword', decorateAuth.verifyUserAndPassword)
     .register(require('fastify-auth'))
     // .register(require('../services/auth'))
     .after(() => {
-        app.route({
-            method: 'POST',
-            url: '/auth-multiple',
-            beforeHandler: app.auth([
-            app.verifyJWTandLevel,
-            app.verifyUserAndPassword
-            ]),
-            handler: (req, reply) => {
-            req.log.info('Auth route')
-            reply.send({ hello: 'world' })
-            }
-        })
+       app.register(require("../routes"))
     })
 
     return app
