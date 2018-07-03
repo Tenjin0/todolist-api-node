@@ -1,12 +1,12 @@
 const path = require("path")
-
+require("dotenv").config({ path: path.resolve(__dirname, ".." , '.env')})
 module.exports = {
     db: {
         client: 'pg',
         connection: {
           host : process.env.DB_HOST || '127.0.0.1',
           user :  process.env.DB_USER  || 'root',
-          password : process.env.DB_USER  || 'test',
+          password : process.env.DB_PASS  || 'test',
           database : 'todolist'
         },
         migrations : {
@@ -15,5 +15,8 @@ module.exports = {
         seeds: {
             directory: path.resolve(__dirname, "..", "db", "seeds")
         }
+    },
+    jwt: {
+        secret: process.env.JWT_SECRET || "supersecret"
     }
 }

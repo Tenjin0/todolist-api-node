@@ -1,14 +1,41 @@
+const userSchemaSignUp = {
+    body: {
+        type: "object",
+        properties: {
+            email: {
+                type: "string",
+                format: "email"
+            },
+            password: {
+                type: "string"
+            },
+            confirmPassword: {
+                type: "string"
+            }
+        },
+        required: ["email", "password", "confirmPassword"]
+    }
+}
+
 module.exports = async function(fastify, options) {
 
-    fastify.post('/signup', async function(req, res, next) {
-        res.send('ok signup')
-    })
     fastify.route({
         method: 'POST',
-        url: '/login',
+        url: '/signup',
+        schema: userSchemaSignUp,
+        handler: (req, res) => {
+            res.send({
+                token: "azedfsfd"
+            })
+        }
+    }, {
+        method: 'POST',
+        url: '/signin',
         beforeHandler: fastify.auth([fastify.verifyUserAndPassword]),
         handler: (req, res) => {
-            res.send('ok login')
+            res.send({
+                token: "azedfsfd"
+            })
         }
     })
 }

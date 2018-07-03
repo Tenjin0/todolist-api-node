@@ -1,7 +1,7 @@
 module.exports = async function(fastify, options, next) {
 
     fastify.addHook('preHandler', fastify.auth([
-        fastify.verifyJWTandLevel
+        fastify.verifyJWT
       ]))
     fastify.use(async function(req, res, nextInstance) {
         console.log("fastify use");

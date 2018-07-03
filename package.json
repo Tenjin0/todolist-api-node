@@ -14,6 +14,7 @@
         "fastify-boom": "^0.1.0",
         "fastify-compress": "^0.5.1",
         "fastify-compression": "^0.4.2",
+        "fastify-favicon": "^0.2.4",
         "fastify-helmet": "^1.0.3",
         "fastify-jwt": "^0.2.1",
         "fastify-knexjs": "^1.0.9",

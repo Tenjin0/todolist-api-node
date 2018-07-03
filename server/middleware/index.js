@@ -14,9 +14,10 @@ function build (opts) {
             brotli: require('iltorb')
         }
     )
+    app.register(require('fastify-favicon'), { path: './' })
     app.register(require('fastify-knexjs'), config.db, err => console.error(err))
 
-    app.decorate('verifyJWTandLevel', decorateAuth.verifyJWTandLevel)
+    app.decorate('verifyJWT', decorateAuth.verifyJWT)
     .decorate('verifyUserAndPassword', decorateAuth.verifyUserAndPassword)
     .register(require('fastify-auth'))
     // .register(require('../services/auth'))
