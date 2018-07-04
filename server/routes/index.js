@@ -1,6 +1,6 @@
 module.exports = async function configureRoutes(fastify, options, next) {
     fastify.addHook('onRoute', (routeOptions) => {
-        console.log("routeOptions", routeOptions)
+        // console.log("routeOptions", routeOptions)
         routeOptions.method
         routeOptions.schema
         routeOptions.url
