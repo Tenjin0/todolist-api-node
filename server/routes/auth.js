@@ -33,11 +33,14 @@ module.exports = async function(fastify, options) {
                 const result = await fastify.knex.table("users").insert({
                     email : req.body.email,
                     password: encryptedPassword
-                }).returning("*")
-                console.log(result)
-                res.send({
-                    token: "azedfsfd"
-                })
+                }).returning(["id", "name", "email", "created_at", "updated_at"])
+                console.log(result[0])
+                // console.log(result.returning)
+
+                req.item = result[0];
+               res.send({
+                   item: result[0]
+               })
             }catch (e) {
                 console.log(e)
                 return res.send("erreur")

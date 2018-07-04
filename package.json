@@ -7,10 +7,7 @@
     },
     "dependencies": {
         "bcrypt": "^2.0.1",
-<<<<<<< HEAD
-=======
         "bluebird": "^3.5.1",
->>>>>>> 651ad0bb5575e6438f940adf0046ae9e7af420f7
         "cors": "^2.8.4",
         "dotenv": "^6.0.0",
         "fastify": "^1.7.0",

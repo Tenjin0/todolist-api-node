@@ -16,7 +16,7 @@ module.exports = {
         seeds: {
             directory: path.resolve(__dirname, "..", "db", "seeds")
         },
-        debug: true
+        debug: false
     },
     jwt: {
         secret: process.env.JWT_SECRET || "supersecret"

@@ -47,11 +47,5 @@ async function hashPassword(password) {
 module.exports = {
     hashPassword,
     verifyJWT,
-<<<<<<< HEAD
-    verifyUserAndPassword,
-    hashPassword
-}
-=======
     verifyUserAndPassword
 }
->>>>>>> 651ad0bb5575e6438f940adf0046ae9e7af420f7
