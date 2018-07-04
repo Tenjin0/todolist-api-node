@@ -7,6 +7,10 @@
     },
     "dependencies": {
         "bcrypt": "^2.0.1",
+<<<<<<< HEAD
+=======
+        "bluebird": "^3.5.1",
+>>>>>>> 651ad0bb5575e6438f940adf0046ae9e7af420f7
         "cors": "^2.8.4",
         "dotenv": "^6.0.0",
         "fastify": "^1.7.0",
@@ -21,15 +25,7 @@
         "fastify-knexjs": "^1.0.9",
         "fastify-leveldb": "^0.3.0",
         "iltorb": "^2.3.2",
-        "jsonwebtoken": "^8.3.0",
-        "nodemon": "^1.17.5",
-        "passport": "^0.4.0",
-        "passport-jwt": "^4.0.0",
-        "passport-local": "^1.0.0",
         "pg": "^7.4.3"
     },
-    "devDependencies": {
-        "bluebird": "^3.5.1",
-        "cross-env": "^5.2.0"
-    }
+    "devDependencies": {}
 }
