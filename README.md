@@ -1,8 +1,5 @@
 # todolist-api-node
 
-Ajout de fastify-auth
-
 TODO
-    Ajouter les routes
-    Ajouter la base de données
-    Ajouter SIGKILL
+    Gestion signin schema
+    Gestion signup compare password

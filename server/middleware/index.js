@@ -63,6 +63,7 @@ const codes = new Map([
     [510, 'Not Extended'],
     [511, 'Network Authentication Required']
 ])
+
 function build(opts) {
     const app = Fastify(opts)
     const Ajv = require('ajv')
@@ -79,31 +80,43 @@ function build(opts) {
     })
 
     app.use(require('cors')())
-    app.register(require("fastify-blipp"));
-    app.register(require('fastify-helmet'))
-    // app.register(require('fastify-boom')); // skirt setErrorHandler
-    app.register(
-        require('fastify-compress'), {
-            brotli: require('iltorb')
-        }
-    )
-    app.register(require('fastify-favicon'), {
-        path: './'
-    })
-    app.register(require('fastify-knexjs'), config.db, err => console.error(err))
+        .register(require("fastify-blipp"))
+        .register(require('fastify-helmet'))
+        .register(
+            require('fastify-compress'), {
+                brotli: require('iltorb')
+            }
+        )
+        .register(require('fastify-favicon'), {
+            path: './'
+        })
+        .register(require('fastify-knexjs'), config.db, err => console.error(err))
+        .register(require('fastify-jwt'), {
+            secret: config.jwt.secret
+        })
+        .register(require('fastify-auth'))
+        .after(() => {
+            app.register(require("../routes"))
+        })
+
+
+    app.decorate('verifyJWT', decorateAuth.verifyJWT)
+        .decorate('verifyUserAndPassword', decorateAuth.verifyUserAndPassword)
+        .decorate('hashPassword', decorateAuth.hashPassword)
+
 
     app.setErrorHandler(function(error, request, reply) {
         const newError = []
         if (error.validation) {
-            for(let i=0; i < error.validation.length; i++){
+            for (let i = 0; i < error.validation.length; i++) {
                 console.log(error.validation[i])
                 const validation = error.validation[i]
                 const paramType = Object.keys(validation.params)[0]
                 newError.push({
-                    code:"",
+                    code: "",
                     type: paramType,
-                    Parameter : error.validation[i].params[paramType],
-                    description : error.validation[i].message
+                    Parameter: error.validation[i].params[paramType],
+                    description: error.validation[i].message
                 })
             }
             Boom
@@ -116,18 +129,11 @@ function build(opts) {
         } else {
             reply.send(error)
         }
-    })
-    app.decorate('verifyJWT', decorateAuth.verifyJWT)
-        .decorate('verifyUserAndPassword', decorateAuth.verifyUserAndPassword)
-        .decorate('hashPassword', decorateAuth.hashPassword)
-        .register(require('fastify-auth'))
-        // .register(require('../services/auth'))
-        .after(() => {
-            app.register(require("../routes"))
-        })
 
+
+    })
     return app
 }
 
 
-module.exports = build; 
+module.exports = build;
