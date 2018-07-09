@@ -37,21 +37,24 @@ function verifyJWT(request, reply, done) {
 async function verifyUserAndPassword(request, reply, done) {
     const jwt = this.jwt
     const knex = this.knex
-    console.log("verifyUserAndPassword", request.body)
-    const result = await knex.table("users").where("email", request.body.email)
-    bcrypt.compare(request.body.password, result[0].password, (err, res) => {
-        // res == true or res == false
-        
-        console.log("result", result[0].password, res)
-        if (res) {
-            delete result[0].password
-            request.user = result[0]
-            done()
+        const result = await knex.table("users").where("email", request.body.email).first()
+        request.log.info({msg: 'unknown users', data: request.body.email})
+        if (result) {
+            bcrypt.compare(request.body.password, result.password, (err, res) => {
+                // res == true or res == false
+                delete result.password
+                request.user = result
+                request.log.info({msg: 'incorect password', data: request.body.password})
+                if (res) {
+                    done()
+                } else {
+                    return done(new Error("incorrect email or password"))
+                }
+              });
         } else {
-            done(new Error("email or password incorrect"))
+            return done(new Error("incorrect email or password"))
         }
-      });
-    // request.user = result[0]
+        // Log la vrai erreur 
 }
 
 async function hashPassword(password) {

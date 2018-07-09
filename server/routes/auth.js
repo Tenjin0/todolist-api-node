@@ -34,8 +34,6 @@ module.exports = async function(fastify, options) {
                     email: req.body.email,
                     password: encryptedPassword
                 }).returning(["id", "name", "email", "created_at", "updated_at"])
-                console.log(result[0])
-                // console.log(result.returning)
 
                 req.item = result[0];
                 res.send({
@@ -43,7 +41,7 @@ module.exports = async function(fastify, options) {
                 })
             } catch (e) {
                 console.log(e)
-                return res.send("erreur")
+                return res.send(e.message)
             }
 
         }
@@ -56,6 +54,7 @@ module.exports = async function(fastify, options) {
         beforeHandler: fastify.auth([fastify.verifyUserAndPassword]),
 
         handler: (req, res) => {
+            console.log("handler")
             payload = {
                 id: 1
             }
