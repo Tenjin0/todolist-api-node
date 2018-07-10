@@ -99,7 +99,7 @@ function build(opts) {
             app.register(require("../routes"))
         })
 
-
+    app.decorate("configapi", config.api)
     app.decorate('verifyJWT', decorateAuth.verifyJWT)
         .decorate('verifyUserAndPassword', decorateAuth.verifyUserAndPassword)
         .decorate('hashPassword', decorateAuth.hashPassword)
@@ -109,7 +109,7 @@ function build(opts) {
         const newError = []
         if (error.validation) {
             for (let i = 0; i < error.validation.length; i++) {
-                console.log(error.validation[i])
+                // console.log(error.validation[i])
                 const validation = error.validation[i]
                 const paramType = Object.keys(validation.params)[0]
                 newError.push({

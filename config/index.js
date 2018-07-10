@@ -20,5 +20,8 @@ module.exports = {
     },
     jwt: {
         secret: process.env.JWT_SECRET || "supersecret"
+    },
+    api: {
+        per_page : 3
     }
 };

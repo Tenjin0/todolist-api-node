@@ -8,9 +8,13 @@ module.exports = async function configureRoutes(fastify, options, next) {
         // routeOptions.logLevel
         // routeOptions.prefix
     })
+    fastify.addHook('onResponse', (req, res, next) => {
+        if(next) 
+            next()
+    })
     fastify.addHook('onSend', (request, reply, payload, next) => {
 
-        console.log(request.body)
+        // console.log(request.body)
         try {
             let newPayload = JSON.parse(payload)
             newPayload.description = 'toto'
