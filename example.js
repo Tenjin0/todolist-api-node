@@ -15,7 +15,6 @@ function build(opts) {
         .register(require('fastify-auth'))
         .after(routes)
     fastify.setErrorHandler(function(error, request, reply) {
-      console.log("aefdsfqfdf", error.message)
         if (error.validation) {
             reply.code(400).send({})
         } else {

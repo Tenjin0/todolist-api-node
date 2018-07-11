@@ -29,7 +29,6 @@ function verifyJWT(request, reply, done) {
         if (err) {
             return done(new Error('Token not Valid'))
         }
-        // console.log(decoded)
         done()
     }
 }

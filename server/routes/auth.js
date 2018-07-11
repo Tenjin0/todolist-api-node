@@ -40,7 +40,6 @@ module.exports = async function(fastify, options) {
                     item: result[0]
                 })
             } catch (e) {
-                console.log(e)
                 return res.send(e.message)
             }
 
@@ -54,7 +53,6 @@ module.exports = async function(fastify, options) {
         beforeHandler: fastify.auth([fastify.verifyUserAndPassword]),
 
         handler: (req, res) => {
-            console.log("handler")
             payload = {
                 id: 1
             }

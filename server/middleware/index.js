@@ -106,10 +106,10 @@ function build(opts) {
 
 
     app.setErrorHandler(function(error, request, reply) {
+        console.log("setErrorHandler")
         const newError = []
         if (error.validation) {
             for (let i = 0; i < error.validation.length; i++) {
-                // console.log(error.validation[i])
                 const validation = error.validation[i]
                 const paramType = Object.keys(validation.params)[0]
                 newError.push({
@@ -119,7 +119,6 @@ function build(opts) {
                     description: error.validation[i].message
                 })
             }
-            Boom
             reply.code(400).send({
                 statusCode: 400,
                 message: "",

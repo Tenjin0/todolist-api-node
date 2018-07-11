@@ -4,7 +4,6 @@ module.exports = async function(fastify, options, next) {
         fastify.verifyJWT
       ]))
     fastify.use(async function(req, res, nextInstance) {
-        // console.log("fastify use");
         nextInstance();
     });
     fastify.register(require('./todos'), {
