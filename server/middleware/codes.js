@@ -1,5 +1,6 @@
 const error_desc = new Map([
-    ['page_out_of_range', 'page parameter is out of range. See _meta in the response']
+    ['page_out_of_range', 'page parameter is out of range. See _meta in the response'],
+    ['id_user_not_found', 'Id user does not exist']
 ])
 const codes = new Map([
     [100, 'Continue'],

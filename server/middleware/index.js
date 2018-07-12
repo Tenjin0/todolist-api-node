@@ -46,8 +46,11 @@ function build(opts) {
         .decorate('hashPassword', decorateAuth.hashPassword)
         .decorate('httpCode', httpResponse.codes)
         .decorate('errorCode', httpResponse.error_desc)
+        .decorateReply('httpCode', httpResponse.codes)
+        .decorateReply('errorCode', httpResponse.error_desc)
 
-    app.setErrorHandler(function(error, request, reply) {
+    app.setErrorHandler((error, request, reply) => {
+        console.log(reply)
         const newError = []
         if (error.validation) {
             for (let i = 0; i < error.validation.length; i++) {
@@ -66,12 +69,12 @@ function build(opts) {
                 description: error.message,
                 errors: newError
             })
-        } else if (codes.has(error.statusCode)) {
+        } else if (reply.httpCode.has(reply.res.statusCode)) {
             let jsonResponse = {
-                    status_code: error.statusCode,
-                    message: fastify.httpCode.get(error.statusCode),
+                    status_code: reply.res.statusCode,
+                    message: reply.httpCode.get(reply.res.statusCode),
                     error_code: error.code,
-                    description: fastify.error_code.get(error.code)
+                    description: reply.error_code.get(error.code)
             }
             if (error._meta) {
                 jsonResponse._meta = error._meta
