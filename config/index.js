@@ -8,7 +8,7 @@ module.exports = {
             port: 5432,
             user: process.env.DB_USER || "root",
             password: process.env.DB_PASS || "test",
-            database: "todolist"
+            database: "todolist",
         },
         migrations: {
             directory: path.resolve(__dirname, "..", "db", "migrations")

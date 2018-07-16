@@ -11,9 +11,6 @@ const userSchemaSignUp = {
             },
             password: {
                 type: "string"
-            },
-            confirmPassword: {
-                type: "string"
             }
         },
         required: ["email", "password", "confirmPassword"]
@@ -33,14 +30,16 @@ module.exports = async function(fastify, options) {
                 const result = await fastify.knex.table("users").insert({
                     email: req.body.email,
                     password: encryptedPassword
-                }).returning(["id", "name", "email", "created_at", "updated_at"])
+                }).returning(["id", "name", "email", "created_at", "updated_at"]).first()
 
-                req.item = result[0];
-                res.send({
-                    item: result[0]
+                res.code(201).send({
+                    items: [result],
+                    _links: {
+                        signin: "[POST]http://" + req.headers.host + "/auth/signin"
+                    }
                 })
             } catch (e) {
-                return res.send(e.message)
+                return res.code(500).send(e)
             }
 
         }
@@ -56,9 +55,7 @@ module.exports = async function(fastify, options) {
             payload = {
                 id: 1
             }
-            const token = fastify.jwt.sign({
-                payload
-            })
+            const token = fastify.jwt.sign(payload)
             res.send({
                 token
             })

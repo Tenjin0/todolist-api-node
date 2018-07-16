@@ -13,10 +13,10 @@ async function hashPassword(password) {
   
 }
 
-function verifyJWT(request, reply, done) {
+ function verifyJWT(request, reply, done) {
     const jwt = this.jwt
     const knex = this.knex
-
+    const userColumns = this.userColumns
     const auth = request.req.headers["auth"]
     
     if(!auth) {
@@ -25,11 +25,20 @@ function verifyJWT(request, reply, done) {
     
     jwt.verify(auth, onVerify)
 
-    function onVerify(err, decoded) {
+    async function onVerify(err, decoded) {
         if (err) {
             return done(new Error('Token not Valid'))
         }
-        done()
+        if (decoded.id) {
+            const result = await knex.table("users").select(userColumns).where("id", decoded.id).first()
+            request.user = result
+            done()
+
+        } else {
+            let err = new Error("User not found")
+            err.error_code = "user_not_found"
+            done(err)
+        }
     }
 }
 
@@ -43,6 +52,7 @@ async function verifyUserAndPassword(request, reply, done) {
                 // res == true or res == false
                 delete result.password
                 request.user = result
+                // console.log(request.user);
                 request.log.info({msg: 'incorect password', data: request.body.password})
                 if (res) {
                     done()
@@ -56,13 +66,20 @@ async function verifyUserAndPassword(request, reply, done) {
         // Log la vrai erreur 
 }
 
-async function hashPassword(password) {
-    return bcrypt.hash(password, 10)
-    
+function verifyUserLevel (level) {
+    return async function (req, res, done) {
+        console.log("verifyUserLevel", level)
+        // console.log(Object.keys(req));
+        // if (!req.user) {
+        //     return done(new Error("no_user_identified"))
+        // }
+        done()
+    }
 }
 
 module.exports = {
     hashPassword,
     verifyJWT,
-    verifyUserAndPassword
+    verifyUserAndPassword,
+    verifyUserLevel
 }
