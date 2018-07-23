@@ -13,7 +13,7 @@ const userSchemaSignUp = {
                 type: "string"
             }
         },
-        required: ["email", "password", "confirmPassword"]
+        required: ["email", "password"]
     }
 }
 
@@ -53,7 +53,7 @@ module.exports = async function(fastify, options) {
 
         handler: (req, res) => {
             payload = {
-                id: 1
+                id: req.user.id
             }
             const token = fastify.jwt.sign(payload)
             res.send({

@@ -14,6 +14,7 @@ function build(opts) {
         useDefaults: true,
         coerceTypes: true,
         allErrors: true,
+        ownProperties: true,
         jsonPointers: true
     })
     app.setSchemaCompiler(function(schema) {
@@ -52,7 +53,7 @@ function build(opts) {
         .ready(async (err) => {
             let userColumnsInfo = await app.knex.table('users').columnInfo()
             userColumnsInfo = Object.keys(userColumnsInfo)
-            const columns = userColumnsInfo.filter(e => e !== "password" && e !== "level"); // refactoring
+            const columns = userColumnsInfo.filter(e => e !== "password"); // refactoring
             app.userColumns = columns
             console.log('Everything has been loaded')
         })
@@ -95,6 +96,8 @@ function build(opts) {
             if (reply.res.statusCode === 404) {
                 error.error_code = "route_not_found"
                 replace =  request.raw.url
+            } else if (reply.errorCode.get(error.message)){
+                error.error_code = error.message
             } else {
                 error.error_code = "unknown_error"
             }

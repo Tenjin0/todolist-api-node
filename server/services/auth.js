@@ -1,5 +1,10 @@
 const bcrypt = require('bcrypt');
 
+const levelAuth = {
+    "ADMIN": 3,
+    "SUPPORT": 2,
+    "USER": 1
+}
 async function hashPassword(password) {
 
     return new Promise((resolve, reject) => {
@@ -45,35 +50,41 @@ async function hashPassword(password) {
 async function verifyUserAndPassword(request, reply, done) {
     const jwt = this.jwt
     const knex = this.knex
-        const result = await knex.table("users").where("email", request.body.email).first()
-        request.log.info({msg: 'unknown users', data: request.body.email})
-        if (result) {
-            bcrypt.compare(request.body.password, result.password, (err, res) => {
-                // res == true or res == false
-                delete result.password
-                request.user = result
-                // console.log(request.user);
-                request.log.info({msg: 'incorect password', data: request.body.password})
-                if (res) {
-                    done()
-                } else {
-                    return done(new Error("incorrect email or password"))
-                }
-              });
-        } else {
-            return done(new Error("incorrect email or password"))
-        }
-        // Log la vrai erreur 
+    const userColumns = this.userColumns
+    const result = await knex.table("users").where("email", request.body.email).first()
+    request.log.info({msg: 'unknown users', data: request.body.email})
+    if (result) {
+        bcrypt.compare(request.body.password, result.password, (err, res) => {
+            // res == true or res == false
+            delete result.password
+            request.user = result
+            request.log.info({msg: 'incorrect password', data: request.body.password})
+            if (res) {
+                done()
+            } else {
+                return done(new Error("incorrect email or password"))
+            }
+            });
+    } else {
+        return done(new Error("incorrect email or password"))
+    }
+    // Log la vrai erreur 
 }
 
 function verifyUserLevel (level) {
     return async function (req, res, done) {
         console.log("verifyUserLevel", level)
-        // console.log(Object.keys(req));
-        // if (!req.user) {
-        //     return done(new Error("no_user_identified"))
-        // }
-        done()
+        if (!req.user) {
+            return done(new Error("no_user_identified"))
+        }
+        
+        console.log(req.user);
+        if (req.user && levelAuth[req.user.level] >= levelAuth[level]) {
+            done()
+        } else {
+            const err = new Error("access_forbidden")
+            done(err)
+        }
     }
 }
 

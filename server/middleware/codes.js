@@ -4,6 +4,7 @@ const error_desc = new Map([
     ['route_not_found', "'{}' not found"],
     ['unknown_error', 'An unknown error appear. An email was send to an admin'],
     ['user_not_found', 'User not found with this token'],
+    ['access_forbidden', 'User not have the permission to access this route'],
 ])
 const codes = new Map([
     [100, 'Continue'],

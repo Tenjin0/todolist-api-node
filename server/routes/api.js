@@ -6,6 +6,7 @@ module.exports = async function(fastify, options, next) {
     fastify.use(async function(req, res, nextInstance) {
         nextInstance();
     });
+
     fastify.register(require('./todos'), {
         prefix: 'todos'
     });
@@ -13,6 +14,7 @@ module.exports = async function(fastify, options, next) {
     fastify.register(require('./users'), {
         prefix: 'users'
     })
+
     fastify.get('/', async function(req, res) {
         res.send({
             status: "ok",

@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 authdb/
+
+server/views/*.html
+server/views/*.js

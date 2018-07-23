@@ -23,5 +23,9 @@ module.exports = {
     },
     api: {
         per_page : 3
+    },
+    email: {
+        address: process.env.EMAIL_ADMIN_ADDRESS,
+        password: process.env.EMAIL_ADMIN_PASSWORD
     }
 };
