@@ -22,7 +22,7 @@ async function hashPassword(password) {
     const jwt = this.jwt
     const knex = this.knex
     const userColumns = this.userColumns
-    const auth = request.req.headers["auth"]
+    const auth = request.req.headers["auth"] || request.query.token
     
     if(!auth) {
         return done(new Error("Missing token header"))
@@ -32,16 +32,21 @@ async function hashPassword(password) {
 
     async function onVerify(err, decoded) {
         if (err) {
-            return done(new Error('Token not Valid'))
+            let error = new Error('Token not Valid')
+                error.error_code = err.message.replace("jwt", "token").replace(/ /g, "_").toLowerCase();
+            return done(error)
         }
         if (decoded.id) {
             const result = await knex.table("users").select(userColumns).where("id", decoded.id).first()
             request.user = result
+            if (decoded.password) {
+                request.user.newPassword = decoded.password
+            }
             done()
 
         } else {
-            let err = new Error("User not found")
-            err.error_code = "user_not_found"
+            let err = new Error("user_not_found")
+            err.replace = "token: " + auth
             done(err)
         }
     }
@@ -50,9 +55,7 @@ async function hashPassword(password) {
 async function verifyUserAndPassword(request, reply, done) {
     const jwt = this.jwt
     const knex = this.knex
-    const userColumns = this.userColumns
     const result = await knex.table("users").where("email", request.body.email).first()
-    request.log.info({msg: 'unknown users', data: request.body.email})
     if (result) {
         bcrypt.compare(request.body.password, result.password, (err, res) => {
             // res == true or res == false
@@ -62,18 +65,18 @@ async function verifyUserAndPassword(request, reply, done) {
             if (res) {
                 done()
             } else {
-                return done(new Error("incorrect email or password"))
+                return done(new Error("incorrect_email_or_password"))
             }
-            });
+        });
     } else {
-        return done(new Error("incorrect email or password"))
+        request.log.info({msg: 'unknown users', data: request.body.email})
+        return done(new Error("incorrect_email_or_password"))
     }
     // Log la vrai erreur 
 }
 
 function verifyUserLevel (level) {
     return async function (req, res, done) {
-        console.log("verifyUserLevel", level)
         if (!req.user) {
             return done(new Error("no_user_identified"))
         }

@@ -3,8 +3,11 @@ const error_desc = new Map([
     ['id_user_not_found', 'Id user does not exist'],
     ['route_not_found', "'{}' not found"],
     ['unknown_error', 'An unknown error appear. An email was send to an admin'],
-    ['user_not_found', 'User not found with this token'],
+    ['user_not_found', 'User not found with this {}'],
     ['access_forbidden', 'User not have the permission to access this route'],
+    ['token_expired', 'The token you submitted has expired'],
+    ['incorrect_email_or_password', 'Your email or your password is incorrect'],
+    ['no_ressource_found', 'No ressource was found with id {}'],
 ])
 const codes = new Map([
     [100, 'Continue'],

@@ -1,5 +1,6 @@
 const Fastify = require('fastify')
 const decorateAuth = require('../services/auth')
+const decorateApi = require('../services/api')
 const config = require("../../config")
 const Boom = require('boom')
 const httpResponse = require("./codes")
@@ -66,11 +67,13 @@ function build(opts) {
         .decorate('verifyUserLevel', decorateAuth.verifyUserLevel)
         .decorate('httpCode', httpResponse.codes)
         .decorate('errorCode', httpResponse.error_desc)
+        .decorate('meta', decorateApi.meta)
+        .decorate('pagination', decorateApi.pagination)
         .decorateReply('httpCode', httpResponse.codes)
         .decorateReply('errorCode', httpResponse.error_desc)
 
     app.setErrorHandler((error, request, reply) => {
-        console.log("setErrorHandler")
+        console.log("setErrorHandler", error.replace)
         const newError = []
         if (error.validation) {
             for (let i = 0; i < error.validation.length; i++) {
@@ -92,6 +95,9 @@ function build(opts) {
         }
         let jsonResponse = {}
         let replace = ""
+        if (error.replace) {
+            replace = error.replace
+        }
         if (!error.error_code) {
             if (reply.res.statusCode === 404) {
                 error.error_code = "route_not_found"
@@ -106,7 +112,11 @@ function build(opts) {
             status_code: reply.res.statusCode,
             message: reply.httpCode.get(reply.res.statusCode),
             error_code: error.error_code,
-            description: reply.errorCode.get(error.error_code).replace("{}", replace)
+            description: "No description found"
+        }
+        if (reply.errorCode.get(error.error_code)) {
+            console.log(replace)
+            jsonResponse.description = reply.errorCode.get(error.error_code).replace("{}", replace)
         }
         if (error._meta) {
             jsonResponse._meta = error._meta

@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
         table.increments()
         table.string("title").notNullable()
         table.boolean("completed").notNullable().defaultTo(false)
-        table.integer("id_user").references('id').inTable('users')
+        table.integer("id_user").references('id').inTable('users').notNullable()
         table.timestamp("created_at").defaultTo(knex.fn.now())
         table.timestamp("updated_at").defaultTo(knex.fn.now())
     })

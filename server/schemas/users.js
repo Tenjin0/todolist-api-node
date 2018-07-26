@@ -5,10 +5,6 @@ const userSchemaPut = {
             username: {
                 type: "string"
             },
-            email: {
-                type: "string",
-                format: "email"
-            },
             level: {
                 "enum": [ "ADMIN", "SUPPORT", "USER" ]
             },
@@ -17,6 +13,17 @@ const userSchemaPut = {
             }
         }
         // required: ["email", "password", "confirmPassword"]
+    }
+}
+
+const userSchemaPutMe = {
+    body: {
+        type: "object",
+        properties: {
+            username: {
+                type: "string"
+            }
+        }
     }
 }
 
@@ -50,6 +57,7 @@ const userResetPasswordSchema = {
 
 module.exports = {
     userSchemaPut,
+    userSchemaPutMe,
     userMeResetPasswordSchema,
     userResetPasswordSchema
 }
